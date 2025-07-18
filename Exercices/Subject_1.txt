@@ -1,0 +1,22 @@
+Practice #1 – “Albion Item Registry”
+
+Build a small CLI exercise to get comfortable with Go’s structs, slices, maps and loops:
+
+Define your domainThink of an “Item” with at least a name (e.g. “T6_Bow”), a category (e.g. “Weapons”) and a price (e.g. 75.3).
+
+Populate a sliceHard-code a handful of items in a []Item so you have data to work with.
+
+Create a lookup mapTurn that slice into a map[string][]Item keyed by category, grouping all bows, swords, armor, etc.
+
+Print your results
+
+Loop through the original slice and display each item.
+
+Then loop through your map and print items by category.
+
+Optional challengeAfter printing, prompt the user to enter a category name (for example “Weapons”) and then only display that group.
+
+CLI (Command Line Interface)
+
+A text-based interface that allows users to interact with software by typing commands into a console or terminal. Commonly used for development tools, scripting, and system administration, a CLI processes user input and displays output directly in the command-line environment.
+
