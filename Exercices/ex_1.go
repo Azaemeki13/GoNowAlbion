@@ -36,13 +36,13 @@ type item struct {
 	cityPrice city_price
 }
 
-func create_dataset() []item {
-	return []item{
-		{
-			category: "Two_hands",
-			name:     "Kingmaker",
-			recipe: recipe{
-				ressource_a: ressource{tier: 6, name: "Steel_Bar", quantity: 20},
+func create_dataset() ([]item, error) {
+	items := []item{
+	{
+		category: "Two_hands",
+		name:     "Kingmaker",
+		recipe: recipe{
+			ressource_a: ressource{tier: 6, name: "Steel_Bar", quantity: 20},
 				ressource_b: ressource{tier: 6, name: "Worked_Leather", quantity: 12},
 				ressource_c: ressource{tier: 6, name: "Master Remnants of the Old King", quantity: 1},
 			},
@@ -97,9 +97,13 @@ func create_dataset() []item {
 			cityPrice: city_price{cityPrice: 180000, cityType: "Thetford"},
 		},
 	}
+	if items == nil {
+		return nil, fmt.Errorf("Failed to create the data set.")
+	}
+	return items, nil
 }
 
-func controller(prompt string, i *int) {
+func controller(prompt string, i *int, []item) {
 	switch {
 	case prompt == "exit":
 		os.Exit(0)
@@ -116,22 +120,23 @@ func controller(prompt string, i *int) {
 
 func main() {
 
-	var index int
-	reader := bufio.NewReader((os.Stdin))
-	item := create_dataset()
-	if ![]item {
-		fmt.Println("Error loading the array, exiting program...")
+	item, err := create_dataset()
+	if err != nil {
+		fmt.Println("Error loading the array, exiting program:", err)
 		os.Exit(1)
 	}
-	fmt.Print("Enter your command :")
-	prompt, err := reader.ReadString(' ')
-	if err != nil {
-		fmt.Println("Error reading input:", err)
-		return
-	}
-	prompt = strings.TrimSpace(prompt)
+	reader := bufio.NewReader((os.Stdin))
+	var index int
 	for {
-		controller(prompt, &index)
+		fmt.Print("Enter your command :")
+		line, err := reader.ReadString('\n')
+		continue
+		if err != nil {
+			fmt.Println("Read error:", err)
+			continue
+		}
+		prompt := strings.TrimSpace(line)
+		controller(prompt, &index, item)
 	}
-
+	
 }
